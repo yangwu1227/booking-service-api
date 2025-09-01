@@ -25,22 +25,31 @@ The specified python version in `pyproject.toml` is `>=3.11`, and so a **python 
 To do so with [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html):
 
 ```bash
-$ conda search python | grep " 3\.\(10\|11\|12\)\."
-$ yes | conda create --name booking_service_api python=3.11.9
+$ conda search python | grep " 3\.\(11\)\."
+$ conda create --name booking_service_api -y python=3.11.9
 $ conda activate booking_service_api
 $ pdm use -f $(which python3)
 $ pdm install
 ```
 
-#### Vitualenv
+#### Pyenv
 
-To do so with [virtualenv](https://github.com/pypa/virtualenv), use the [pdm venv](https://pdm-project.org/en/latest/reference/cli/#venv) command:
+To do so with [pyenv](https://github.com/pyenv/pyenv) and [virtualenv](https://github.com/pypa/virtualenv), use the [pdm venv](https://pdm-project.org/en/latest/reference/cli/#venv) command:
 
 ```bash 
+$ pyenv install --list | grep " 3\.\(11\)\." 
+$ pyenv install 3.11.9
 $ pdm venv create --name booking_service_api --with virtualenv 3.11.9 
 # To activate the virtual environment
 $ eval $(pdm venv activate booking_service_api) 
 $ pdm install
+```
+
+Use `--with venv` to create the virtual environment using `venv` (comes with standard library) instead of `virtualenv` (third-party package but more performant). To create the venv in the project root instead of `pdm config venv.location`, omit the `--name` option:
+
+```bash
+$ pdm config venv.in_project true
+$ pdm venv create --with venv 3.11.9
 ```
 
 ---
